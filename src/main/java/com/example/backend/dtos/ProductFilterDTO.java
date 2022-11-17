@@ -1,6 +1,5 @@
 package com.example.backend.dtos;
 
-import com.example.backend.entities.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ProductDTO extends Product {
-    private String category_name;
-    private String brand_name;
+public class ProductFilterDTO {
+    private int category_id;
+    private List<String> list_color;
     private List<String> list_size;
+    private String price_sort;
 }

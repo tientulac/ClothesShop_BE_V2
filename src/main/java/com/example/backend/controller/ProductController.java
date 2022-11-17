@@ -1,15 +1,19 @@
 package com.example.backend.controller;
 import com.example.backend.dtos.ProductDTO;
+import com.example.backend.dtos.ProductFilterDTO;
 import com.example.backend.entities.*;
 import com.example.backend.services.brand.BrandService;
 import com.example.backend.services.category.CategoryService;
+import com.example.backend.services.product.ProductColorService;
 import com.example.backend.services.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -21,6 +25,9 @@ public class ProductController {
     CategoryService categoryService;
     @Autowired
     BrandService brandService;
+
+    @Autowired
+    ProductColorService productColorService;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<ProductDTO> getList() {
@@ -88,6 +95,39 @@ public class ProductController {
         catch (Exception ex) {
             System.out.println(ex.getMessage());
             return false;
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/filter")
+    public List<ProductDTO> filterProduct(@RequestBody ProductFilterDTO prodFilter) {
+        try {
+            System.out.println(prodFilter.getCategory_id());
+            List<ProductColor> listProductColor = productColorService.findAll();
+
+            var listDTO  = getList().stream().filter(x -> x.getCategory_id() == prodFilter.getCategory_id()).collect(Collectors.toList());
+
+//            if (prodFilter.getList_color().size() > 0) {
+//                var listColorFilter = listProductColor.stream().filter(c -> prodFilter.getList_color().contains(c.getColor())).collect(Collectors.toList());
+//                var listIdProductColor = listColorFilter.stream().map(c -> c.getProduct_id()).collect(Collectors.toList());
+//                listDTO = listDTO.stream().filter(p -> listIdProductColor.contains(p.getProduct_id())).collect(Collectors.toList());
+//            }
+//            if (prodFilter.getList_size().size() > 0) {
+//                for (ProductDTO pDTO : listDTO) {
+//                    pDTO.setList_size(Arrays.stream(pDTO.getSize().split(",", 0)).collect(Collectors.toList()));
+//                }
+//                for (ProductDTO pDTO : listDTO) {
+//                    for (var size: pDTO.getList_size()) {
+//                        if (!prodFilter.getList_size().contains(size)) {
+//                            listDTO = listDTO.stream().filter(o -> o.getProduct_id() != pDTO.getProduct_id()).collect(Collectors.toList());
+//                        }
+//                    }
+//                }
+//            }
+            return listDTO;
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
         }
     }
 }
