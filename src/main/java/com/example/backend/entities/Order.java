@@ -22,6 +22,9 @@ public class Order {
     @Column(name = "order_id")
     private int order_id;
 
+    @Column(name = "order_item")
+    private String order_item;
+
     @Column(name = "account_id")
     private int account_id;
 

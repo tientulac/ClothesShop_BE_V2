@@ -35,7 +35,6 @@ public class CategoryController {
                 category = categoryService.updateOne(category);
             }
             else {
-                System.out.println(category.getCategory_name());
                 category.setCreated_at(new Date());
                 category = categoryService.insertOne(category);
             }

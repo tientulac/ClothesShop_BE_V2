@@ -100,18 +100,35 @@ public class AccountController {
             if (_account != null) {
                 var tokenConfig = new JwtTokenUtil();
                 var info = new UserInfo();
-                info.setAccount_id(account.getAccount_id());
-                info.setUser_name(account.getUser_name());
-                info.setAvatar(account.getAvatar());
-                info.setActive(account.isActive());
-                info.setAdmin(account.isAdmin());
-                info.setAddress(account.getAddress());
-                info.setEmail(account.getEmail());
-                info.setPhone(account.getPhone());
-                info.setRole_code(account.getRole_code());
+                info.setAccount_id(_account.getAccount_id());
+                info.setUser_name(_account.getUser_name());
+                info.setAvatar(_account.getAvatar());
+                info.setActive(_account.isActive());
+                info.setAdmin(_account.isAdmin());
+                info.setAddress(_account.getAddress());
+                info.setEmail(_account.getEmail());
+                info.setPhone(_account.getPhone());
+                info.setRole_code(_account.getRole_code());
                 var token = tokenConfig.generateToken(info);
                 info.setToken(token);
                 return info;
+            }
+            else {
+                return null;
+            }
+        }
+        catch (Exception ex) {
+            return null;
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/register")
+    public Account register(@RequestBody Account account) {
+        try {
+            if (account != null) {
+                account.setCreated_at(new Date());
+                account = accountService.save(account);
+                return account;
             }
             else {
                 return null;

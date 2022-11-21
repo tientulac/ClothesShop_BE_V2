@@ -19,13 +19,15 @@ public class AccountServiceImp implements AccountService{
 
     @Override
     public Account login(String user_name, String password) {
-        var list = accountRepository.findAll();
-        var acc = new Account();
-        for (Account a : list) {
-            if (a.getUser_name() == user_name && a.getPassword() == password) {
-                acc = a;
+        System.out.println(user_name + ' ' + password);
+        for (Account a : accountRepository.findAll()) {
+            if (a.getUser_name().equals(user_name) && a.getPassword().equals(password)) {
+                System.out.println(111111111);
+                return a;
             }
-            return acc;
+            else {
+                return  null;
+            }
         }
         return null;
     }

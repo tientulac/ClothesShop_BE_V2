@@ -14,6 +14,7 @@ import java.util.List;
 public class RoleController {
     @Autowired
     RoleService roleService;
+    //CODE: 01-ADMIN, 02-Shopkeeper, 03-Customer
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Role> getList() {
