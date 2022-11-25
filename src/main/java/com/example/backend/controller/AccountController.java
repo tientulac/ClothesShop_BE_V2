@@ -138,4 +138,20 @@ public class AccountController {
             return null;
         }
     }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/updateInfo")
+    public Account updatePassword(@RequestBody Account account) {
+        try {
+            Account accUpdate = accountService.findById(account.getAccount_id());
+            accUpdate.setUpdate_at(new Date());
+            accUpdate.setPassword(account.getPassword());
+            accUpdate.setEmail(account.getEmail());
+            accUpdate = accountService.save(accUpdate);
+            return accUpdate;
+        }
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+    }
 }
